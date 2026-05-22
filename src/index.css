@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+    font-family: 'Regular';
+    src: url('/fonts/TTInterfaces-Regular.ttf') format('TrueType')
+}
+@font-face {
+    font-family: 'Bold';
+    src: url('/fonts/Eastlane-Bold.ttf') format('TrueType')
+}
+@font-face {
+    font-family: 'DemiBold';
+    src: url('/fonts/TTInterfaces-DemiBold.ttf') format('TrueType')
+}
