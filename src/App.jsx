@@ -11,7 +11,13 @@ import {
 	Home,
 	Disenos,
 	Matematicas,
-	Tablas
+	Tablas,
+	Criptos,
+	Bitunix,
+	BitunixBalance,
+	Acciones,
+	Prospectos,
+	BMV,
 } from "./pages"
 
 const App = () => {
@@ -25,6 +31,12 @@ const App = () => {
 							<Route path="/disenos" element={<Disenos />} />
 							<Route path="/matematicas" element={<Matematicas />} />
 							<Route path="/tablas" element={<Tablas />} />
+							<Route path="/criptos" element={<Criptos />} />
+							<Route path="/bitunix" element={<Bitunix />} />
+							<Route path="/bitunix/balance" element={<BitunixBalance />} />
+							<Route path="/acciones" element={<Acciones />} />
+							<Route path="/prospectos" element={<Prospectos />} />
+							<Route path="/bmv" element={<BMV />} />
 							{/* <Route path="/contacto" element={<Contacto />} /> */}
 						</Route>
 					</Routes>
