@@ -119,7 +119,7 @@ export function Sidebar({ open, onToggle }) {
 						{label}
 					</NavLink>
 				))}
-				<BitunixDropdown />
+				{/* <BitunixDropdown /> */}
 			</nav>
 		</aside>
 	)

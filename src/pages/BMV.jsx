@@ -28,7 +28,7 @@ function saveCustom(data) {
 }
 
 function normalizeTicker(raw) {
-    const t = raw.trim().toUpperCase();
+    const t = raw.trim().toUpperCase().replace(/\//g, '');
     return t.endsWith(".MX") ? t : `${t}.MX`;
 }
 
@@ -470,7 +470,17 @@ export function BMV() {
 
                 {!loading && !error && (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {allMeta.map(meta => (
+                        {[...allMeta].sort((a, b) => {
+                            const plPctOf = meta => {
+                                const s     = stockMap[meta.symbol];
+                                const e     = portfolio[meta.symbol] ?? {};
+                                const buy   = parseFloat(e.buyPrice);
+                                const price = s?.regularMarketPrice;
+                                if (price && buy > 0) return ((price - buy) / buy) * 100;
+                                return -Infinity;
+                            };
+                            return plPctOf(b) - plPctOf(a);
+                        }).map(meta => (
                             <StockCard
                                 key={meta.symbol}
                                 meta={meta}

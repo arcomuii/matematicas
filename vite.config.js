@@ -137,6 +137,47 @@ function yahooProxy() {
   }
 }
 
+function coingeckoProxy() {
+  const CG_PREFIX = '/api/coingecko'
+  const CG_BASE   = 'https://api.coingecko.com'
+  const CG_KEY    = process.env.CG_API_KEY || ''
+
+  return {
+    name: 'coingecko-proxy',
+    configureServer(server) {
+      server.middlewares.use(async (req, res, next) => {
+        if (!req.url.startsWith(CG_PREFIX)) return next()
+
+        const targetPath = req.url.slice(CG_PREFIX.length) || '/'
+        const targetUrl  = `${CG_BASE}${targetPath}`
+
+        const headers = {
+          'Accept'    : 'application/json',
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        }
+        if (CG_KEY) headers['x-cg-demo-api-key'] = CG_KEY
+
+        try {
+          const upstream = await fetch(targetUrl, { headers })
+          const text = await upstream.text()
+          res.setHeader('Content-Type', 'application/json')
+          res.statusCode = upstream.status
+          try {
+            res.end(JSON.stringify(JSON.parse(text)))
+          } catch {
+            res.end(JSON.stringify({ raw: text }))
+          }
+        } catch (err) {
+          console.error(`[coingecko-proxy] ${targetUrl} →`, err.message)
+          res.statusCode = 502
+          res.setHeader('Content-Type', 'application/json')
+          res.end(JSON.stringify({ error: err.message }))
+        }
+      })
+    },
+  }
+}
+
 export default defineConfig({
-  plugins: [react(), bitunixProxy(), yahooProxy()],
+  plugins: [react(), bitunixProxy(), yahooProxy(), coingeckoProxy()],
 })

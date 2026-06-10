@@ -105,6 +105,27 @@ export function BitunixBalance() {
 
                 {!loading && !error && account && hasKnownFields && (
                     <>
+                        {/* Total equity card */}
+                        {(() => {
+                            const total      = parseFloat(available ?? 0) + parseFloat(margin ?? 0) + totalPnl;
+                            const totalColor = totalPnl > 0 ? "text-green-600" : totalPnl < 0 ? "text-red-500" : "text-gray-800";
+                            return (
+                                <div className="flex justify-center mb-6">
+                                    <div className="bg-white rounded-2xl border border-gray-100 shadow-lg px-10 py-6 text-center min-w-64">
+                                        <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-2">
+                                            Equity total
+                                        </p>
+                                        <p className={`text-4xl font-black font-mono ${totalColor}`}>
+                                            {fmt(total)} {coin}
+                                        </p>
+                                        <p className="text-xs text-gray-400 mt-2">
+                                            Disponible + Margen en uso + PnL no realizado
+                                        </p>
+                                    </div>
+                                </div>
+                            );
+                        })()}
+
                         {posMode && (
                             <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 mb-4">
                                 Modo: {posMode}
